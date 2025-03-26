@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Roulette Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Roulette Tracker</h1>
+  </header>
+
+  <main>
+    <section id="controls">
+      <div>
+        <label for="tracking-mode">Modalità di tracciamento:</label>
+        <select id="tracking-mode">
+          <option value="clockwise">Sempre senso orario</option>
+          <option value="alternating">Senso alternato</option>
+        </select>
+      </div>
+      <div id="initial-direction-container">
+        <label for="initial-direction">Direzione iniziale:</label>
+        <select id="initial-direction">
+          <option value="clockwise">Orario</option>
+          <option value="counterclockwise">Antiorario</option>
+        </select>
+      </div>
+    </section>
+
+    <section id="number-selection">
+      <div id="number-buttons"></div>
+    </section>
+
+    <section id="table-container">
+      <table id="distance-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Numero</th>
+            <th>Orario</th>
+            <th>Antiorario</th>
+            <th>Tracciamento</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- Nuova posizione menu selezione grafico -->
+    <section id="graph-controls">
+      <label for="graph-view">Tipo di visualizzazione grafico:</label>
+      <select id="graph-view">
+        <option value="always-clockwise">Sempre orario</option>
+        <option value="always-counterclockwise">Sempre antiorario</option>
+        <option value="alternating">Alternato</option>
+      </select>
+    </section>
+
+    <!-- Grafici -->
+    <section id="graph-clockwise">
+      <h2>Grafico Distanze (senso orario)</h2>
+      <svg id="distance-graph" width="300" height="300" viewBox="0 0 300 300"></svg>
+    </section>
+
+    <section id="graph-counterclockwise">
+      <h2>Grafico Distanze (senso antiorario)</h2>
+      <svg id="distance-graph-ccw" width="300" height="300" viewBox="0 0 300 300"></svg>
+    </section>
+
+    <section id="graph-alternating">
+      <h2>Grafico Distanze (modalità alternata)</h2>
+      <svg id="distance-graph-alt" width="300" height="300" viewBox="0 0 300 300"></svg>
+    </section>
+
+    <section id="actions">
+      <button id="undo-btn">Annulla ultima</button>
+      <button id="reset-btn">Reset completo</button>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
