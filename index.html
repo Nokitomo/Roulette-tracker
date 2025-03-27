@@ -31,6 +31,10 @@
 
     <section id="number-selection">
       <div id="number-buttons"></div>
+      <div id="actions">
+        <button id="undo-btn">Annulla ultima</button>
+        <button id="reset-btn">Reset completo</button>
+      </div>
     </section>
 
     <section id="table-container">
@@ -41,14 +45,13 @@
             <th>Numero</th>
             <th>Orario</th>
             <th>Antiorario</th>
-            <th>Tracciamento</th>
+            <th>Alternata</th>
           </tr>
         </thead>
         <tbody></tbody>
       </table>
     </section>
 
-    <!-- Nuova posizione menu selezione grafico -->
     <section id="graph-controls">
       <label for="graph-view">Tipo di visualizzazione grafico:</label>
       <select id="graph-view">
@@ -58,25 +61,37 @@
       </select>
     </section>
 
-    <!-- Grafici -->
     <section id="graph-clockwise">
       <h2>Grafico Distanze (senso orario)</h2>
       <svg id="distance-graph" width="300" height="300" viewBox="0 0 300 300"></svg>
+      <table id="table-clockwise" class="distance-summary">
+        <thead>
+          <tr><th>↻</th><th>●</th><th>↻</th><th>●</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     </section>
 
     <section id="graph-counterclockwise">
       <h2>Grafico Distanze (senso antiorario)</h2>
       <svg id="distance-graph-ccw" width="300" height="300" viewBox="0 0 300 300"></svg>
+      <table id="table-counterclockwise" class="distance-summary">
+        <thead>
+          <tr><th>↻</th><th>●</th><th>↻</th><th>●</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     </section>
 
     <section id="graph-alternating">
       <h2>Grafico Distanze (modalità alternata)</h2>
       <svg id="distance-graph-alt" width="300" height="300" viewBox="0 0 300 300"></svg>
-    </section>
-
-    <section id="actions">
-      <button id="undo-btn">Annulla ultima</button>
-      <button id="reset-btn">Reset completo</button>
+      <table id="table-alternating" class="distance-summary">
+        <thead>
+          <tr><th>↻</th><th>●</th><th>↻</th><th>●</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     </section>
   </main>
 
