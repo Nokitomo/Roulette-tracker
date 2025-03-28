@@ -56,6 +56,7 @@
       <label for="graph-view">Tipo di visualizzazione grafico:</label>
       <select id="graph-view">
         <option value="always-clockwise">Sempre orario</option>
+        <option value="only-clockwise">Solo orario</option>
         <option value="always-counterclockwise">Solo antiorario</option>
         <option value="alternating">Alternato</option>
       </select>
@@ -82,6 +83,17 @@
         <tbody></tbody>
       </table>
     </section>
+    
+    <section id="graph-only-clockwise">
+  <h2>Grafico Distanze (solo senso orario)</h2>
+  <svg id="distance-graph-only-cw" width="300" height="300" viewBox="0 0 300 300"></svg>
+  <table id="table-only-clockwise" class="distance-summary">
+    <thead>
+      <tr><th>↻</th><th>●</th><th>↻</th><th>●</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</section>
 
     <section id="graph-alternating">
       <h2>Grafico Distanze (modalità alternata)</h2>
