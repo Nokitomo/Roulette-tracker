@@ -413,4 +413,4 @@ if (savedGraphView) {
 document.getElementById("update-btn").addEventListener("click", () => {
   localStorage.clear();
   location.reload();
-});
+}); 
