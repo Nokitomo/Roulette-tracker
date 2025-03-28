@@ -454,6 +454,7 @@ if (savedGraphView) {
 }
   
   // --- CARICAMENTO DATI SALVATI DA LOCALSTORAGE ---
+  updateGraphVisibility();
   if (history.length > 0) {
   const previousHistory = [...history]; // Evitiamo duplicazioni
   history = []; // Svuotiamo per far funzionare correttamente handleNumberClick
