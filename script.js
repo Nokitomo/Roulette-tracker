@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const tableCounterclockwise = document.querySelector("#table-counterclockwise tbody");
   const tableAlternating = document.querySelector("#table-alternating tbody");
 
-  let history = [];
+  let history = JSON.parse(localStorage.getItem("roulette-history")) || [];
   let trackingMode = "clockwise";
   let initialDirection = "clockwise";
 
@@ -42,6 +42,10 @@ document.addEventListener("DOMContentLoaded", function () {
     if (trackingMode === "clockwise") return "clockwise";
     return history.length % 2 === 0 ? initialDirection : (initialDirection === "clockwise" ? "counterclockwise" : "clockwise");
   }
+  
+  function saveHistory() {
+  localStorage.setItem("roulette-history", JSON.stringify(history));
+}
 
   function calcDistance(from, to, direction) {
     const fromIndex = rouletteOrder.indexOf(from);
@@ -171,6 +175,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   document.getElementById("reset-btn").addEventListener("click", () => {
     history = [];
+    localStorage.removeItem("roulette-history");
     tableBody.innerHTML = "";
     tableClockwise.innerHTML = "";
     tableCounterclockwise.innerHTML = "";
@@ -204,6 +209,7 @@ document.addEventListener("DOMContentLoaded", function () {
     updateClockwiseTable(number);
     updateCounterclockwiseTable(number);
     updateAlternatingTable(number);
+    saveHistory();
   }
 
   // GRAFICI
@@ -301,4 +307,13 @@ document.addEventListener("DOMContentLoaded", function () {
     graphALT.style.display = value === "alternating" ? "block" : "none";
   }
   updateGraphVisibility();
+  
+  // --- CARICAMENTO DATI SALVATI DA LOCALSTORAGE ---
+  if (history.length > 0) {
+  const previousHistory = [...history]; // Evitiamo duplicazioni
+  history = []; // Svuotiamo per far funzionare correttamente handleNumberClick
+  for (const entry of previousHistory) {
+    handleNumberClick(entry.number);
+  }
+}
 });
