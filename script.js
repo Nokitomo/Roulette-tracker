@@ -388,10 +388,14 @@ if (savedTrackingMode) {
   initialDirectionContainer.style.display = trackingMode === "alternating" ? "block" : "none";
 }
 
-const savedInitialDirection = localStorage.getItem("initial-direction");
-if (savedInitialDirection) {
-  initialDirection = savedInitialDirection;
-  initialDirectionSelect.value = savedInitialDirection;
+if (trackingMode === "alternating") {
+  const savedInitialDirection = localStorage.getItem("initial-direction");
+  if (savedInitialDirection) {
+    initialDirection = savedInitialDirection;
+    initialDirectionSelect.value = savedInitialDirection;
+  }
+} else {
+  initialDirection = "clockwise"; // default
 }
 
 const savedGraphView = localStorage.getItem("graph-view");
