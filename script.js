@@ -402,7 +402,7 @@ if (savedGraphView) {
 }
   
   // --- CARICAMENTO DATI SALVATI DA LOCALSTORAGE ---
-  if (history.length > 0) {
+if (history.length > 0) {
   const previousHistory = [...history]; // Evitiamo duplicazioni
   history = []; // Svuotiamo per far funzionare correttamente handleNumberClick
   for (const entry of previousHistory) {
@@ -410,7 +410,13 @@ if (savedGraphView) {
   }
 }
 
-document.getElementById("update-btn").addEventListener("click", () => {
-  localStorage.clear();
-  location.reload();
-}); 
+// Protezione: aggiungi event listener solo se il bottone esiste
+const updateBtn = document.getElementById("update-btn");
+if (updateBtn) {
+  updateBtn.addEventListener("click", () => {
+    if (confirm("Vuoi aggiornare l'app e svuotare i dati salvati?")) {
+      localStorage.clear();
+      location.reload();
+    }
+  });
+}
