@@ -30,13 +30,15 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   trackingModeSelect.addEventListener("change", () => {
-    trackingMode = trackingModeSelect.value;
-    initialDirectionContainer.style.display = trackingMode === "alternating" ? "block" : "none";
-  });
+  trackingMode = trackingModeSelect.value;
+  localStorage.setItem("tracking-mode", trackingMode); // <--- salvataggio
+  initialDirectionContainer.style.display = trackingMode === "alternating" ? "block" : "none";
+});
 
   initialDirectionSelect.addEventListener("change", () => {
-    initialDirection = initialDirectionSelect.value;
-  });
+  initialDirection = initialDirectionSelect.value;
+  localStorage.setItem("initial-direction", initialDirection); // <--- salvataggio
+});
 
   function getCurrentDirection() {
     if (trackingMode === "clockwise") return "clockwise";
@@ -298,7 +300,11 @@ document.addEventListener("DOMContentLoaded", function () {
   const graphCCW = document.getElementById("graph-counterclockwise");
   const graphALT = document.getElementById("graph-alternating");
 
-  graphViewSelect.addEventListener("change", updateGraphVisibility);
+  graphViewSelect.addEventListener("change", () => {
+  const value = graphViewSelect.value;
+  localStorage.setItem("graph-view", value); // <--- salvataggio
+  updateGraphVisibility();
+});
 
   function updateGraphVisibility() {
     const value = graphViewSelect.value;
@@ -307,6 +313,26 @@ document.addEventListener("DOMContentLoaded", function () {
     graphALT.style.display = value === "alternating" ? "block" : "none";
   }
   updateGraphVisibility();
+  
+  // --- RIPRISTINO IMPOSTAZIONI SALVATE ---
+const savedTrackingMode = localStorage.getItem("tracking-mode");
+if (savedTrackingMode) {
+  trackingMode = savedTrackingMode;
+  trackingModeSelect.value = savedTrackingMode;
+  initialDirectionContainer.style.display = trackingMode === "alternating" ? "block" : "none";
+}
+
+const savedInitialDirection = localStorage.getItem("initial-direction");
+if (savedInitialDirection) {
+  initialDirection = savedInitialDirection;
+  initialDirectionSelect.value = savedInitialDirection;
+}
+
+const savedGraphView = localStorage.getItem("graph-view");
+if (savedGraphView) {
+  graphViewSelect.value = savedGraphView;
+  updateGraphVisibility();
+}
   
   // --- CARICAMENTO DATI SALVATI DA LOCALSTORAGE ---
   if (history.length > 0) {
