@@ -82,8 +82,7 @@ main {
 
 #graph-clockwise,
 #graph-counterclockwise,
-#graph-alternating,
-#graph-only-clockwise {
+#graph-alternating {
   text-align: center;
   margin-top: 2rem;
 }
@@ -103,8 +102,7 @@ main {
 /* Tabelle grafiche */
 #table-clockwise,
 #table-counterclockwise,
-#table-alternating,
-#table-only-clockwise {
+#table-alternating {
   width: 100%;
   border-collapse: collapse;
   margin-top: 1rem;
@@ -118,9 +116,7 @@ main {
 #table-counterclockwise th,
 #table-counterclockwise td,
 #table-alternating th,
-#table-alternating td,
-#table-only-clockwise th,
-#table-only-clockwise td {
+#table-alternating td {
   border: 1px solid #ccc;
   padding: 0.2rem;
   width: 25%;
@@ -129,8 +125,7 @@ main {
 
 #table-clockwise tbody tr:nth-child(odd),
 #table-counterclockwise tbody tr:nth-child(odd),
-#table-alternating tbody tr:nth-child(odd),
-#table-only-clockwise tbody tr:nth-child(odd) {
+#table-alternating tbody tr:nth-child(odd) {
   background-color: #f9f9f9;
 }
 
