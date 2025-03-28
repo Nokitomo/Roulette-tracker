@@ -18,13 +18,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const distanceUsageALT = Array(37).fill(0);
   const directionUsageALT = Array(37).fill(null);
 
-const sectorFrequencies = Array(37).fill(0);
-const sectorFrequenciesCCW = Array(37).fill(0);
-const sectorFrequenciesALT = Array(37).fill(0);
-const sectorFrequenciesOnlyCW = Array(37).fill(0);
-const sectorDirectionsALT = Array(37).fill(null);
-
-
   const rouletteOrder = [
     0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10,
     5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26
@@ -178,10 +171,10 @@ const sectorDirectionsALT = Array(37).fill(null);
   }
 }
 
-  function addRowToTable(number, cw, ccw, distance, direction) {
+  function addRowToTable(number, cw, ccw, tracking, direction) {
     const row = document.createElement("tr");
     let trackingColor = "-";
-    if (distance !== "-") {
+    if (tracking !== "-") {
       trackingColor = direction === "clockwise"
         ? "rgba(255, 204, 0, 0.3)"
         : "rgba(0, 204, 255, 0.3)";
@@ -191,7 +184,7 @@ const sectorDirectionsALT = Array(37).fill(null);
       <td>${number}</td>
       <td>${cw}</td>
       <td>${ccw}</td>
-      <td style="background-color: ${trackingColor}; font-weight: bold;">${distance}</td>
+      <td style="background-color: ${trackingColor}; font-weight: bold;">${tracking}</td>
     `;
     tableBody.appendChild(row);
   }
@@ -207,30 +200,18 @@ const sectorDirectionsALT = Array(37).fill(null);
   });
 
   document.getElementById("reset-btn").addEventListener("click", () => {
-  history = [];
-  localStorage.removeItem("roulette-history");
-  tableBody.innerHTML = "";
-  tableClockwise.innerHTML = "";
-  tableCounterclockwise.innerHTML = "";
-  tableAlternating.innerHTML = "";
-  tableOnlyCW.innerHTML = "";
-
-  distanceUsage.fill(0);
-  distanceUsageCCW.fill(0);
-  distanceUsageALT.fill(0);
-  directionUsageALT.fill(null);
-  resetDistanceSectors();
-
-  svg.innerHTML = "";
-  svgCCW.innerHTML = "";
-  svgALT.innerHTML = "";
-  svgOnlyCW.innerHTML = "";
-
-  drawSectors(svg, "sector");
-  drawSectors(svgCCW, "sector-ccw");
-  drawSectors(svgALT, "sector-alt");
-  drawSectors(svgOnlyCW, "sector-only-cw");
-});
+    history = [];
+    localStorage.removeItem("roulette-history");
+    tableBody.innerHTML = "";
+    tableClockwise.innerHTML = "";
+    tableCounterclockwise.innerHTML = "";
+    tableAlternating.innerHTML = "";
+    distanceUsage.fill(0);
+    distanceUsageCCW.fill(0);
+    distanceUsageALT.fill(0);
+    directionUsageALT.fill(null);
+    resetDistanceSectors();
+  });
 
   function handleNumberClick(number) {
     const previous = history.length > 0 ? history[history.length - 1].number : null;
