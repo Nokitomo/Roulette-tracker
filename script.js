@@ -409,4 +409,8 @@ if (savedGraphView) {
     handleNumberClick(entry.number);
   }
 }
+
+document.getElementById("update-btn").addEventListener("click", () => {
+  localStorage.clear();
+  location.reload();
 });
