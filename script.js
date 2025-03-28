@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const tableClockwise = document.querySelector("#table-clockwise tbody");
   const tableCounterclockwise = document.querySelector("#table-counterclockwise tbody");
   const tableAlternating = document.querySelector("#table-alternating tbody");
+  const tableOnlyCW = document.querySelector("#table-only-clockwise tbody");
 
   let history = JSON.parse(localStorage.getItem("roulette-history")) || [];
   let trackingMode = "clockwise";
@@ -148,6 +149,27 @@ document.addEventListener("DOMContentLoaded", function () {
       tableAlternating.appendChild(row);
     }
   }
+  
+  function updateOnlyCWTable(latestNumber) {
+  tableOnlyCW.innerHTML = "";
+  for (let i = 0; i <= 18; i++) {
+    const leftDistance = i;
+    const rightDistance = i + 19;
+    const leftNumber = getNumberAtDistance(latestNumber, leftDistance);
+    const rightNumber = getNumberAtDistance(latestNumber, rightDistance);
+    const leftClass = sectorFrequenciesOnlyCW[leftDistance] ? `highlight-1` : "";
+    const rightClass = sectorFrequenciesOnlyCW[rightDistance] ? `highlight-1` : "";
+
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${leftDistance}</td>
+      <td class="${leftClass}">${leftNumber}</td>
+      <td>${rightDistance}</td>
+      <td class="${rightClass}">${rightNumber}</td>
+    `;
+    tableOnlyCW.appendChild(row);
+  }
+}
 
   function addRowToTable(number, cw, ccw, tracking, direction) {
     const row = document.createElement("tr");
@@ -204,6 +226,10 @@ document.addEventListener("DOMContentLoaded", function () {
     if (previous !== null) {
   registerDistance(distanceCW);
   highlightDistanceSector(distanceCW);
+  
+  if (currentDirection === "clockwise") {
+  highlightDistanceSectorOnlyCW(distanceCW);
+}
 
   if (currentDirection === "counterclockwise") {
     registerDistanceCCW(distanceCCW);
@@ -224,10 +250,12 @@ document.addEventListener("DOMContentLoaded", function () {
   const svg = document.getElementById("distance-graph");
   const svgCCW = document.getElementById("distance-graph-ccw");
   const svgALT = document.getElementById("distance-graph-alt");
+  const svgOnlyCW = document.getElementById("distance-graph-only-cw");
 
   const sectorFrequencies = Array(37).fill(0);
   const sectorFrequenciesCCW = Array(37).fill(0);
   const sectorFrequenciesALT = Array(37).fill(0);
+  const sectorFrequenciesOnlyCW = Array(37).fill(0);
   const sectorDirectionsALT = Array(37).fill(null);
 
   function drawSectors(svgElement, prefix) {
@@ -263,22 +291,26 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function resetDistanceSectors() {
-    for (let i = 0; i < 37; i++) {
-      sectorFrequencies[i] = 0;
-      sectorFrequenciesCCW[i] = 0;
-      sectorFrequenciesALT[i] = 0;
-      sectorDirectionsALT[i] = null;
-      document.getElementById(`sector-${i}`)?.setAttribute("fill", "#ffffff");
-      document.getElementById(`sector-ccw-${i}`)?.setAttribute("fill", "#ffffff");
-      document.getElementById(`sector-alt-${i}`)?.setAttribute("fill", "#ffffff");
-    }
+  for (let i = 0; i < 37; i++) {
+    sectorFrequencies[i] = 0;
+    sectorFrequenciesCCW[i] = 0;
+    sectorFrequenciesALT[i] = 0;
+    sectorDirectionsALT[i] = null;
+    sectorFrequenciesOnlyCW[i] = 0;
+
+    document.getElementById(`sector-${i}`)?.setAttribute("fill", "#ffffff");
+    document.getElementById(`sector-ccw-${i}`)?.setAttribute("fill", "#ffffff");
+    document.getElementById(`sector-alt-${i}`)?.setAttribute("fill", "#ffffff");
+    document.getElementById(`sector-only-cw-${i}`)?.setAttribute("fill", "#ffffff");
   }
+}
   
   function rebuildFromHistory() {
   tableBody.innerHTML = "";
   tableClockwise.innerHTML = "";
   tableCounterclockwise.innerHTML = "";
   tableAlternating.innerHTML = "";
+  tableOnlyCW.innerHTML = "";
 
   distanceUsage.fill(0);
   distanceUsageCCW.fill(0);
@@ -315,10 +347,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const color = `rgba(${baseColor[0]}, ${baseColor[1]}, ${baseColor[2]}, ${opacity})`;
     document.getElementById(`sector-alt-${distance}`)?.setAttribute("fill", color);
   }
+  
+  function highlightDistanceSectorOnlyCW(distance) {
+  sectorFrequenciesOnlyCW[distance]++;
+  const intensity = Math.min(sectorFrequenciesOnlyCW[distance], 5);
+  const color = `rgba(255, 204, 0, ${0.2 + intensity * 0.15})`;
+  document.getElementById(`sector-only-cw-${distance}`)?.setAttribute("fill", color);
+}
 
   drawSectors(svg, "sector");
   drawSectors(svgCCW, "sector-ccw");
   drawSectors(svgALT, "sector-alt");
+  drawSectors(svgOnlyCW, "sector-only-cw");
 
   const graphViewSelect = document.getElementById("graph-view");
   const graphCW = document.getElementById("graph-clockwise");
@@ -336,6 +376,7 @@ document.addEventListener("DOMContentLoaded", function () {
     graphCW.style.display = value === "always-clockwise" ? "block" : "none";
     graphCCW.style.display = value === "always-counterclockwise" ? "block" : "none";
     graphALT.style.display = value === "alternating" ? "block" : "none";
+    document.getElementById("graph-only-clockwise").style.display = value === "only-clockwise" ? "block" : "none";
   }
   updateGraphVisibility();
   
