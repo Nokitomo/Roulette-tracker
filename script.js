@@ -31,13 +31,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
   trackingModeSelect.addEventListener("change", () => {
   trackingMode = trackingModeSelect.value;
-  localStorage.setItem("tracking-mode", trackingMode); // <--- salvataggio
+  localStorage.setItem("tracking-mode", trackingMode);
   initialDirectionContainer.style.display = trackingMode === "alternating" ? "block" : "none";
+  rebuildFromHistory(); // <-- aggiunto!
 });
 
   initialDirectionSelect.addEventListener("change", () => {
   initialDirection = initialDirectionSelect.value;
-  localStorage.setItem("initial-direction", initialDirection); // <--- salvataggio
+  localStorage.setItem("initial-direction", initialDirection);
+  rebuildFromHistory(); // <-- aggiunto!
 });
 
   function getCurrentDirection() {
@@ -267,6 +269,25 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById(`sector-alt-${i}`)?.setAttribute("fill", "#ffffff");
     }
   }
+  
+  function rebuildFromHistory() {
+  tableBody.innerHTML = "";
+  tableClockwise.innerHTML = "";
+  tableCounterclockwise.innerHTML = "";
+  tableAlternating.innerHTML = "";
+
+  distanceUsage.fill(0);
+  distanceUsageCCW.fill(0);
+  distanceUsageALT.fill(0);
+  directionUsageALT.fill(null);
+  resetDistanceSectors();
+
+  const previousHistory = [...history];
+  history = [];
+  for (const entry of previousHistory) {
+    handleNumberClick(entry.number);
+  }
+}
 
   function highlightDistanceSector(distance) {
     sectorFrequencies[distance]++;
