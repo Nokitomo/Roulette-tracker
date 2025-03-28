@@ -374,25 +374,68 @@ document.addEventListener("DOMContentLoaded", function () {
   updateGraphVisibility();
 });
 
-  function updateGraphVisibility() {
-    const value = graphViewSelect.value;
-    const currentDirection = getCurrentDirection();
-
-    graphCW.style.display = value === "always-clockwise" ? "block" : "none";
-    graphCCW.style.display = (value === "always-counterclockwise" && currentDirection === "counterclockwise") ? "block" : "none";
-    graphALT.style.display = value === "alternating" ? "block" : "none";
-    document.getElementById("graph-only-clockwise").style.display = 
-      (value === "only-clockwise" && currentDirection === "clockwise") ? "block" : "none";
-  }
-  updateGraphVisibility();
   
-  // --- RIPRISTINO IMPOSTAZIONI SALVATE ---
-const savedTrackingMode = localStorage.getItem("tracking-mode");
-if (savedTrackingMode) {
-  trackingMode = savedTrackingMode;
-  trackingModeSelect.value = savedTrackingMode;
-  initialDirectionContainer.style.display = trackingMode === "alternating" ? "block" : "none";
+function updateGraphVisibility() {
+  const value = graphViewSelect.value;
+  const currentDirection = getCurrentDirection();
+
+  // Riferimenti ai messaggi
+  const messageCW = document.getElementById("message-only-cw");
+  const messageCCW = document.getElementById("message-ccw");
+
+  // Riferimenti ai grafici e tabelle
+  const graphCW = document.getElementById("graph-clockwise");
+  const graphCCW = document.getElementById("graph-counterclockwise");
+  const graphALT = document.getElementById("graph-alternating");
+  const graphOnlyCW = document.getElementById("graph-only-clockwise");
+
+  const svgOnlyCW = document.getElementById("distance-graph-only-cw");
+  const tableOnlyCW = document.getElementById("table-only-clockwise");
+  const svgCCW = document.getElementById("distance-graph-ccw");
+  const tableCCW = document.getElementById("table-counterclockwise");
+
+  // Reset messaggi
+  messageCW.style.display = "none";
+  messageCCW.style.display = "none";
+  messageCW.textContent = "";
+  messageCCW.textContent = "";
+
+  graphCW.style.display = value === "always-clockwise" ? "block" : "none";
+  graphALT.style.display = value === "alternating" ? "block" : "none";
+
+  if (value === "only-clockwise") {
+    graphOnlyCW.style.display = "block";
+    if (currentDirection === "clockwise") {
+      svgOnlyCW.style.display = "block";
+      tableOnlyCW.style.display = "table";
+      messageCW.style.display = "none";
+    } else {
+      svgOnlyCW.style.display = "none";
+      tableOnlyCW.style.display = "none";
+      messageCW.style.display = "block";
+      messageCW.textContent = "Il prossimo giro è antiorario cane";
+    }
+  } else {
+    graphOnlyCW.style.display = "none";
+  }
+
+  if (value === "always-counterclockwise") {
+    graphCCW.style.display = "block";
+    if (currentDirection === "counterclockwise") {
+      svgCCW.style.display = "block";
+      tableCCW.style.display = "table";
+      messageCCW.style.display = "none";
+    } else {
+      svgCCW.style.display = "none";
+      tableCCW.style.display = "none";
+      messageCCW.style.display = "block";
+      messageCCW.textContent = "Il prossimo giro è orario cane";
+    }
+  } else {
+    graphCCW.style.display = "none";
+  }
 }
+
 
 if (trackingMode === "alternating") {
   const savedInitialDirection = localStorage.getItem("initial-direction");
