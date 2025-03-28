@@ -188,3 +188,20 @@ main {
     font-size: 14px;
   }
 }
+
+.graph-message {
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #c00;
+  padding: 1rem;
+  background-color: #ffecec;
+  border: 1px solid #faa;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+svg {
+  display: block;
+  margin: 0 auto;
+}
