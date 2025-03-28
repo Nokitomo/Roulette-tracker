@@ -82,7 +82,8 @@ main {
 
 #graph-clockwise,
 #graph-counterclockwise,
-#graph-alternating {
+#graph-alternating,
+#graph-only-clockwise {
   text-align: center;
   margin-top: 2rem;
 }
