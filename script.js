@@ -197,6 +197,7 @@ document.addEventListener("DOMContentLoaded", function () {
     history.pop();
     rebuildFromHistory();
     saveHistory();
+    updateGraphVisibility();
   });
 
   document.getElementById("reset-btn").addEventListener("click", () => {
@@ -245,6 +246,7 @@ document.addEventListener("DOMContentLoaded", function () {
     updateAlternatingTable(number);
     updateOnlyCWTable(number);
     saveHistory();
+    updateGraphVisibility();
   }
 
   // GRAFICI
@@ -321,6 +323,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const previousHistory = [...history];
   history = [];
   for (const entry of previousHistory) {
+    updateGraphVisibility();
     handleNumberClick(entry.number);
   }
 }
@@ -373,10 +376,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function updateGraphVisibility() {
     const value = graphViewSelect.value;
+    const currentDirection = getCurrentDirection();
+
     graphCW.style.display = value === "always-clockwise" ? "block" : "none";
-    graphCCW.style.display = value === "always-counterclockwise" ? "block" : "none";
+    graphCCW.style.display = (value === "always-counterclockwise" && currentDirection === "counterclockwise") ? "block" : "none";
     graphALT.style.display = value === "alternating" ? "block" : "none";
-    document.getElementById("graph-only-clockwise").style.display = value === "only-clockwise" ? "block" : "none";
+    document.getElementById("graph-only-clockwise").style.display = 
+      (value === "only-clockwise" && currentDirection === "clockwise") ? "block" : "none";
   }
   updateGraphVisibility();
   
@@ -409,6 +415,7 @@ if (savedGraphView) {
   const previousHistory = [...history]; // Evitiamo duplicazioni
   history = []; // Svuotiamo per far funzionare correttamente handleNumberClick
   for (const entry of previousHistory) {
+    updateGraphVisibility();
     handleNumberClick(entry.number);
   }
 }
