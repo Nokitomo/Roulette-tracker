@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const distanceUsage = Array(37).fill(0);
   const distanceUsageCCW = Array(37).fill(0);
   const distanceUsageALT = Array(37).fill(0);
+  const sectorFrequenciesOnlyCW = Array(37).fill(0);
   const directionUsageALT = Array(37).fill(null);
 
   const rouletteOrder = [
@@ -255,8 +256,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const sectorFrequencies = Array(37).fill(0);
   const sectorFrequenciesCCW = Array(37).fill(0);
   const sectorFrequenciesALT = Array(37).fill(0);
-  const sectorFrequenciesOnlyCW = Array(37).fill(0);
-  const sectorDirectionsALT = Array(37).fill(null);
+    const sectorDirectionsALT = Array(37).fill(null);
 
   function drawSectors(svgElement, prefix) {
     const center = 150, radius = 140, sectorAngle = 360 / 37;
