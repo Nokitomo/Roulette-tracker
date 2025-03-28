@@ -202,13 +202,17 @@ document.addEventListener("DOMContentLoaded", function () {
     addRowToTable(number, distanceCW ?? "-", distanceCCW ?? "-", effectiveDistance ?? "-", currentDirection);
 
     if (previous !== null) {
-      registerDistance(distanceCW);
-      registerDistanceCCW(distanceCCW);
-      registerDistanceALT(effectiveDistance, currentDirection);
-      highlightDistanceSector(distanceCW);
-      highlightDistanceSectorCCW(distanceCCW);
-      highlightDistanceSectorALT(effectiveDistance, currentDirection);
-    }
+  registerDistance(distanceCW);
+  highlightDistanceSector(distanceCW);
+
+  if (currentDirection === "counterclockwise") {
+    registerDistanceCCW(distanceCCW);
+    highlightDistanceSectorCCW(distanceCCW);
+  }
+
+  registerDistanceALT(effectiveDistance, currentDirection);
+  highlightDistanceSectorALT(effectiveDistance, currentDirection);
+}
 
     updateClockwiseTable(number);
     updateCounterclockwiseTable(number);
