@@ -243,6 +243,7 @@ document.addEventListener("DOMContentLoaded", function () {
     updateClockwiseTable(number);
     updateCounterclockwiseTable(number);
     updateAlternatingTable(number);
+    updateOnlyCWTable(number);
     saveHistory();
   }
 
