@@ -194,11 +194,8 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("undo-btn").addEventListener("click", () => {
     if (history.length === 0) return;
     history.pop();
-    tableBody.removeChild(tableBody.lastChild);
-    const lastNumber = history.length ? history[history.length - 1].number : 0;
-    updateClockwiseTable(lastNumber);
-    updateCounterclockwiseTable(lastNumber);
-    updateAlternatingTable(lastNumber);
+    rebuildFromHistory();
+    saveHistory();
   });
 
   document.getElementById("reset-btn").addEventListener("click", () => {
