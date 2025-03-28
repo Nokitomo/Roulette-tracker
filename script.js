@@ -243,7 +243,6 @@ document.addEventListener("DOMContentLoaded", function () {
     updateClockwiseTable(number);
     updateCounterclockwiseTable(number);
     updateAlternatingTable(number);
-    updateOnlyCWTable(number);
     saveHistory();
   }
 
@@ -409,19 +408,4 @@ if (savedGraphView) {
     handleNumberClick(entry.number);
   }
 }
-
-const updateBtn = document.getElementById("update-btn");
-if (updateBtn) {
-  updateBtn.addEventListener("click", () => {
-    if (confirm("Vuoi aggiornare l'app e svuotare i dati salvati?")) {
-      localStorage.clear();
-      location.reload();
-    }
-  });
-}
-
-
-document.getElementById("update-btn").addEventListener("click", () => {
-  localStorage.clear();
-  location.reload();
 });
