@@ -157,8 +157,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const rightDistance = i + 19;
     const leftNumber = getNumberAtDistance(latestNumber, leftDistance);
     const rightNumber = getNumberAtDistance(latestNumber, rightDistance);
-    const leftClass = sectorFrequenciesOnlyCW[leftDistance] ? `highlight-1` : "";
-    const rightClass = sectorFrequenciesOnlyCW[rightDistance] ? `highlight-1` : "";
+    const leftIntensity = Math.min(sectorFrequenciesOnlyCW[leftDistance], 4);
+    const rightIntensity = Math.min(sectorFrequenciesOnlyCW[rightDistance], 4);
+    const leftClass = leftIntensity ? `highlight-${leftIntensity}` : "";
+    const rightClass = rightIntensity ? `highlight-${rightIntensity}` : "";
 
     const row = document.createElement("tr");
     row.innerHTML = `
