@@ -3,112 +3,66 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Roulette Tracker</title>
+  <title>Gestionale Turni Dipendenti</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 </head>
 <body>
-  <header>
-    <h1>Roulette Tracker</h1>
-  </header>
+  <div class="container">
+    <h1>Gestione Turni Dipendenti</h1>
 
-  <main>
-    <section id="controls">
-      <div>
-        <label for="tracking-mode">Modalità di tracciamento:</label>
-        <select id="tracking-mode">
-          <option value="clockwise">Sempre senso orario</option>
-          <option value="alternating">Senso alternato</option>
-        </select>
+    <!-- Menu in alto a destra -->
+    <nav id="main-menu">
+      <button id="menu-button">☰ Menu</button>
+      <div id="menu-dropdown" class="hidden">
+        <button data-target="calendar-view">Calendario Turni</button>
+        <button data-target="employee-section">Dipendenti</button>
+        <button data-target="hours-section">Ore Dipendenti</button>
+        <button data-target="cleanup-section">Pulizia Dati</button>
       </div>
-      <div id="initial-direction-container">
-        <label for="initial-direction">Direzione iniziale:</label>
-        <select id="initial-direction">
-          <option value="clockwise">Orario</option>
-          <option value="counterclockwise">Antiorario</option>
-        </select>
-      </div>
+    </nav>
+
+    <section id="week-navigation">
+      <button id="prev-week">Settimana Precedente</button>
+      <span id="current-week-label"></span>
+      <button id="next-week">Settimana Successiva</button>
     </section>
 
-    <section id="number-selection">
-      <div id="number-buttons"></div>
-      <div id="actions">
-        <button id="undo-btn">Annulla ultima</button>
-        <button id="reset-btn">Reset completo</button>
-      </div>
+    <section id="calendar-section">
+      <h2>Calendario Turni</h2>
+      <div id="calendar"></div>
     </section>
 
-    <section id="table-container">
-      <table id="distance-table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Numero</th>
-            <th>Orario</th>
-            <th>Antiorario</th>
-            <th>Alternata</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+    <section id="employee-section" class="hidden">
+      <h2>Aggiungi Dipendente</h2>
+      <label for="employee-name">Nome:</label>
+      <input type="text" id="employee-name" placeholder="Nome dipendente" />
+      <button id="add-employee">Aggiungi</button>
+      <ul id="employee-list"></ul>
     </section>
 
-    <section id="graph-controls">
-      <label for="graph-view">Tipo di visualizzazione grafico:</label>
-      <select id="graph-view">
-        <option value="always-clockwise">Sempre orario</option>
-        <option value="only-clockwise">Solo orario</option>
-        <option value="always-counterclockwise">Solo antiorario</option>
-        <option value="alternating">Alternato</option>
+    <section id="hours-section" class="hidden">
+      <h2>Ore Lavorate</h2>
+      <div id="worked-hours"></div>
+    </section>
+
+    <section id="cleanup-section" class="hidden">
+      <h2>Pulizia Automatica dei Dati</h2>
+      <label for="cleanup-select">Rimuovi dati più vecchi di:</label>
+      <select id="cleanup-select">
+        <option value="off">Off</option>
+        <option value="3">3 mesi</option>
+        <option value="6">6 mesi</option>
+        <option value="12">1 anno</option>
       </select>
     </section>
 
-    <section id="graph-clockwise">
-      <h2>Grafico Distanze (senso orario)</h2>
-      <svg id="distance-graph" width="300" height="300" viewBox="0 0 300 300"></svg>
-      <table id="table-clockwise" class="distance-summary">
-        <thead>
-          <tr><th>↻</th><th>●</th><th>↻</th><th>●</th></tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+    <section id="export-section">
+      <button id="export-pdf">Esporta PDF</button>
     </section>
+  </div>
 
-    <section id="graph-counterclockwise">
-  <h2>Grafico Distanze (solo senso antiorario)</h2>
-  <div id="message-ccw" class="graph-message" style="display: none;"></div>
-      <svg id="distance-graph-ccw" width="300" height="300" viewBox="0 0 300 300"></svg>
-      <table id="table-counterclockwise" class="distance-summary">
-        <thead>
-          <tr><th>↻</th><th>●</th><th>↻</th><th>●</th></tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </section>
-    
-    <section id="graph-only-clockwise">
-  <h2>Grafico Distanze (solo senso orario)</h2>
-  <div id="message-only-cw" class="graph-message" style="display: none;"></div>
-  <svg id="distance-graph-only-cw" width="300" height="300" viewBox="0 0 300 300"></svg>
-  <table id="table-only-clockwise" class="distance-summary">
-    <thead>
-      <tr><th>↻</th><th>●</th><th>↻</th><th>●</th></tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-</section>
-
-    <section id="graph-alternating">
-      <h2>Grafico Distanze (modalità alternata)</h2>
-      <svg id="distance-graph-alt" width="300" height="300" viewBox="0 0 300 300"></svg>
-      <table id="table-alternating" class="distance-summary">
-        <thead>
-          <tr><th>↻</th><th>●</th><th>↻</th><th>●</th></tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </section>
-  </main>
-
-  <script src="script.js"></script>
+  <script type="module" src="main.js"></script>
 </body>
 </html>
